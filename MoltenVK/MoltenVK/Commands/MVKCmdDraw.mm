@@ -1330,3 +1330,71 @@ void MVKCmdDrawIndexedIndirect::encode(MVKCommandEncoder* cmdEncoder, const MVKI
     }
 }
 
+
+#if MVK_XCODE_14
+
+#pragma mark -
+#pragma mark MVKCmdDrawMeshTasks
+
+VkResult MVKCmdDrawMeshTasks::setContent(MVKCommandBuffer* cmdBuff,
+		uint32_t groupCountX,
+		uint32_t groupCountY,
+		uint32_t groupCountZ) {
+	_groupCountX = groupCountX;
+	_groupCountY = groupCountY;
+	_groupCountZ = groupCountZ;
+
+	// Validate
+	MVKDevice* mvkDvc = cmdBuff->getDevice();
+	if ( ![mvkDvc->getMTLDevice() supportsFamily: MTLGPUFamilyMetal3] ) {
+		return cmdBuff->reportError(VK_ERROR_FEATURE_NOT_PRESENT, "vkCmdDrawMeshTasksEXT(): The current device does not support mesh shaders.");
+	}
+
+	return VK_SUCCESS;
+}
+
+void MVKCmdDrawMeshTasks::encode(MVKCommandEncoder* cmdEncoder) {
+	auto* pipeline = (MVKGraphicsPipeline*)cmdEncoder->_graphicsPipelineState.getPipeline();
+
+	MVKPiplineStages stages;
+	pipeline->getStages(stages);
+
+	for (uint32_t s : stages) {
+		auto stage = MVKGraphicsStage(s);
+		cmdEncoder->finalizeDrawState(stage);    // Ensure all updated state has been submitted to Metal
+
+		if ( !pipeline->hasValidMTLPipelineStates() ) { return; }    // Abort if this pipeline stage could not be compiled.
+	}
+
+	const auto groupSize = MTLSizeMake(_groupCountX, _groupCountY, _groupCountZ);
+
+	[cmdEncoder->_mtlRenderEncoder drawMeshThreadgroups:groupSize
+							threadsPerObjectThreadgroup:cmdEncoder->_mtlObjectThreadgroupSize
+							  threadsPerMeshThreadgroup:cmdEncoder->_mtlThreadgroupSize];
+}
+
+#pragma mark -
+#pragma mark MVKCmdDrawMeshTasksIndirect
+
+VkResult MVKCmdDrawMeshTasksIndirect::setContent(MVKCommandBuffer* cmdBuff, VkBuffer buffer,
+		VkDeviceSize offset,
+		uint32_t drawCount,
+		uint32_t stride) {
+	MVKBuffer* mvkBuffer = (MVKBuffer*)buffer;
+	_mtlIndirectBuffer = mvkBuffer->getMTLBuffer();
+	_mtlIndirectBufferOffset = mvkBuffer->getMTLBufferOffset() + offset;
+	_mtlIndirectBufferStride = stride;
+	_drawCount = drawCount;
+
+	// Validate
+	MVKDevice* mvkDvc = cmdBuff->getDevice();
+	if ( ![mvkDvc->getMTLDevice() supportsFamily: MTLGPUFamilyMetal3] ) {
+		return cmdBuff->reportError(VK_ERROR_FEATURE_NOT_PRESENT, "vkCmdDrawMeshTasksEXT(): The current device does not support mesh shaders.");
+	}
+
+	return VK_SUCCESS;
+}
+
+void MVKCmdDrawMeshTasksIndirect::encode(MVKCommandEncoder* cmdEncoder) {
+	//TODO:
+}

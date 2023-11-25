@@ -377,6 +377,26 @@ public:
     void setVertexBytes(id<MTLRenderCommandEncoder> mtlEncoder, const void* bytes,
 						NSUInteger length, uint32_t mtlBuffIndex, bool descOverride = false);
 
+#if MVK_XCODE_14
+
+	/**
+     * Copy bytes into the Metal encoder at a Metal object buffer index, and optionally indicate
+     * that this binding might override a desriptor binding. If so, the descriptor binding will
+     * be marked dirty so that it will rebind before the next usage.
+     */
+	void setObjectBytes(id<MTLRenderCommandEncoder> mtlEncoder, const void* bytes,
+						NSUInteger length, uint32_t mtlBuffIndex, bool descOverride = false);
+
+	/**
+      * Copy bytes into the Metal encoder at a Metal mesh buffer index, and optionally indicate
+      * that this binding might override a desriptor binding. If so, the descriptor binding will
+      * be marked dirty so that it will rebind before the next usage.
+     */
+	void setMeshBytes(id<MTLRenderCommandEncoder> mtlEncoder, const void* bytes,
+						NSUInteger length, uint32_t mtlBuffIndex, bool descOverride = false);
+
+#endif
+
 	/**
 	 * Copy bytes into the Metal encoder at a Metal fragment buffer index, and optionally indicate
 	 * that this binding might override a desriptor binding. If so, the descriptor binding will
@@ -466,6 +486,11 @@ public:
 	/** Tracks the occlusion query state of the encoder. */
 	MVKOcclusionQueryCommandEncoderState _occlusionQueryState;
 
+#if MVK_XCODE_14
+	/** The size of the threadgroup for the object shader */
+	MTLSize _mtlObjectThreadgroupSize;
+#endif
+
     /** The size of the threadgroup for the compute shader. */
     MTLSize _mtlThreadgroupSize;
 
@@ -514,6 +539,10 @@ protected:
 	MVKPushConstantsCommandEncoderState _vertexPushConstants;
 	MVKPushConstantsCommandEncoderState _tessCtlPushConstants;
 	MVKPushConstantsCommandEncoderState _tessEvalPushConstants;
+#if MVK_XCODE_14
+	MVKPushConstantsCommandEncoderState _taskPushConstants;
+	MVKPushConstantsCommandEncoderState _meshPushConstants;
+#endif
 	MVKPushConstantsCommandEncoderState _fragmentPushConstants;
 	MVKPushConstantsCommandEncoderState _computePushConstants;
 	MVKPrefillMetalCommandBuffersStyle _prefillStyle;

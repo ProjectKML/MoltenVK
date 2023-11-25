@@ -193,6 +193,10 @@ bool MVKDescriptorSetLayout::populateBindingUse(MVKBitArray& bindingUse,
 		spv::ExecutionModelVertex,
 		spv::ExecutionModelTessellationControl,
 		spv::ExecutionModelTessellationEvaluation,
+#if MVK_XCODE_14
+		spv::ExecutionModelTaskEXT,
+		spv::ExecutionModelMeshEXT,
+#endif
 		spv::ExecutionModelFragment,
 		spv::ExecutionModelGLCompute
 	};

@@ -751,6 +751,10 @@ MVKShaderStage mvkShaderStageFromVkShaderStageFlagBitsInObj(VkShaderStageFlagBit
 		case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:		return kMVKShaderStageTessCtl;
 		case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT:	return kMVKShaderStageTessEval;
 		/* FIXME: VK_SHADER_STAGE_GEOMETRY_BIT */
+#if MVK_XCODE_14
+		case VK_SHADER_STAGE_TASK_BIT_EXT:					return kMVKShaderStageTask;
+		case VK_SHADER_STAGE_MESH_BIT_EXT:					return kMVKShaderStageMesh;
+#endif
 		case VK_SHADER_STAGE_FRAGMENT_BIT:					return kMVKShaderStageFragment;
 		case VK_SHADER_STAGE_COMPUTE_BIT:					return kMVKShaderStageCompute;
 		default:
@@ -765,6 +769,10 @@ MVK_PUBLIC_SYMBOL VkShaderStageFlagBits mvkVkShaderStageFlagBitsFromMVKShaderSta
 		case kMVKShaderStageTessCtl:	return VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
 		case kMVKShaderStageTessEval:	return VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
 		/* FIXME: kMVKShaderStageGeometry */
+#if MVK_XCODE_14
+		case kMVKShaderStageTask:		return VK_SHADER_STAGE_TASK_BIT_EXT;
+		case kMVKShaderStageMesh:		return VK_SHADER_STAGE_MESH_BIT_EXT;
+#endif
 		case kMVKShaderStageFragment:	return VK_SHADER_STAGE_FRAGMENT_BIT;
 		case kMVKShaderStageCompute:	return VK_SHADER_STAGE_COMPUTE_BIT;
 		case kMVKShaderStageCount:
@@ -805,6 +813,7 @@ MTLTessellationPartitionMode mvkMTLTessellationPartitionModeFromSpvExecutionMode
 	}
 }
 
+//TODO: add task shader & mesh shader
 MVK_PUBLIC_SYMBOL MTLRenderStages mvkMTLRenderStagesFromVkPipelineStageFlags(VkPipelineStageFlags2 vkStages,
 																			 bool placeBarrierBefore) {
 	// Although there are many combined render/compute/host stages in Vulkan, there are only two render
