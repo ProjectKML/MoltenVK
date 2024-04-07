@@ -33,6 +33,7 @@
 #include "MVKFoundation.h"
 #include "MVKCodec.h"
 #include "MVKStrings.h"
+#include "MVKMemoryDecompression.h"
 #include <MoltenVKShaderConverter/SPIRVToMSLConverter.h>
 
 #import "CAMetalLayer+MoltenVK.h"
@@ -4799,6 +4800,17 @@ MVKDevice::MVKDevice(MVKPhysicalDevice* physicalDevice, const VkDeviceCreateInfo
 
 	MVKLogInfo("Created VkDevice to run on GPU %s with the following %d Vulkan extensions enabled:%s",
 			   getName(), _enabledExtensions.getEnabledCount(), _enabledExtensions.enabledNamesString("\n\t\t", true).c_str());
+
+	//Check if memory decompression is enabled
+	if(_enabledExtensions.vk_NV_memory_decompression.enabled) {
+		_pMemoryDecompression = new MVKMemoryDecompression();
+
+		const auto result = _pMemoryDecompression->init(getMTLDevice());
+		if(result != VK_SUCCESS) {
+			setConfigurationResult(result);
+			return; //The function ends here anyway. I will return here anyway, if code is added after this
+		}
+	}
 }
 
 // Perf stats that last the duration of the app process.
@@ -5103,6 +5115,11 @@ void MVKDevice::reservePrivateData(const VkDeviceCreateInfo* pCreateInfo) {
 }
 
 MVKDevice::~MVKDevice() {
+	if(_pMemoryDecompression) {
+		delete _pMemoryDecompression;
+		_pMemoryDecompression = nullptr;
+	}
+
 	if (_isPerformanceTracking) {
 		auto perfLogStyle = getMVKConfig().activityPerformanceLoggingStyle;
 		if (perfLogStyle == MVK_CONFIG_ACTIVITY_PERFORMANCE_LOGGING_STYLE_DEVICE_LIFETIME) {

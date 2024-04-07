@@ -50,6 +50,11 @@ VkResult MVKCmdDecompressMemoryNV::setContent(MVKCommandBuffer* cmdBuff,
 }
 
 void MVKCmdDecompressMemoryNV::encode(MVKCommandEncoder* cmdEncoder) {
-    //TODO:
+    const auto* pDevice = cmdEncoder->getDevice();
+    const auto* pMemoryDecompression = pDevice->getMemoryDecompression();
+
+    [cmdEncoder->_mtlRenderEncoder setComputePipelineState:pMemoryDecompression->getPipelineState()];
+
+    //TODO: bind buffers and dispatch
 }
 

@@ -655,6 +655,8 @@
 
 /* Begin PBXFileReference section */
 		2795EF312BC2E3000039C276 /* MVKCmdDecompressMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MVKCmdDecompressMemory.h; sourceTree = "<group>"; };
+		2795EF362BC2F76D0039C276 /* MVKCmdDecompressMemorySource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MVKCmdDecompressMemorySource.h; sourceTree = "<group>"; };
+		2795EF382BC2FAB80039C276 /* MVKMemoryDecompression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MVKMemoryDecompression.h; sourceTree = "<group>"; };
 		2FEA0ABA24902F9F00EEF3AD /* libMoltenVK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMoltenVK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		45003E6F214AD4C900E989CB /* MVKExtensions.def */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = MVKExtensions.def; sourceTree = "<group>"; };
 		4536382D2508A4C6000EFFD3 /* MTLRenderPassStencilAttachmentDescriptor+MoltenVK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MTLRenderPassStencilAttachmentDescriptor+MoltenVK.h"; sourceTree = "<group>"; };
@@ -952,6 +954,7 @@
 				A9C96DCF1DDC20C20053187F /* MVKMTLBufferAllocation.mm */,
 				A9E4B7881E1D8AF10046A4CE /* MVKMTLResourceBindings.h */,
 				2795EF312BC2E3000039C276 /* MVKCmdDecompressMemory.h */,
+				2795EF362BC2F76D0039C276 /* MVKCmdDecompressMemorySource.h */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -998,6 +1001,7 @@
 				A94FB79E1C7DFB4800632CA3 /* MVKSync.mm */,
 				A99C91012295FAC500A061DA /* MVKVulkanAPIObject.h */,
 				A99C91002295FAC500A061DA /* MVKVulkanAPIObject.mm */,
+				2795EF382BC2FAB80039C276 /* MVKMemoryDecompression.h */,
 			);
 			path = GPUObjects;
 			sourceTree = "<group>";

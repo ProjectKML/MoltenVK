@@ -69,6 +69,7 @@ class MVKCommandPool;
 class MVKCommandEncoder;
 class MVKCommandResourceFactory;
 class MVKPrivateDataSlot;
+class MVKMemoryDecompression;
 
 
 /** The buffer index to use for vertex content. */
@@ -526,6 +527,10 @@ public:
 								 uint64_t* pTimestamps,
 								 uint64_t* pMaxDeviation);
 
+	MVKMemoryDecompression* getMemoryDecompression() const {
+		return _pMemoryDecompression;
+	}
+
 #pragma mark Object lifecycle
 
 	MVKBuffer* createBuffer(const VkBufferCreateInfo* pCreateInfo,
@@ -929,6 +934,7 @@ protected:
 	bool _isCurrentlyAutoGPUCapturing = false;
 	bool _isUsingMetalArgumentBuffers = false;
 
+	MVKMemoryDecompression* _pMemoryDecompression = nullptr;
 };
 
 
