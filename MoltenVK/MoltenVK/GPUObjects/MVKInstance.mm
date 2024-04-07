@@ -768,6 +768,10 @@ void MVKInstance::initProcAddrs() {
 	ADD_DVC_EXT_ENTRY_POINT(vkCmdSetSampleLocationsEnableEXT, EXT_EXTENDED_DYNAMIC_STATE_3);
 	ADD_DVC_EXT_ENTRY_POINT(vkCmdSetSampleMaskEXT, EXT_EXTENDED_DYNAMIC_STATE_3);
 	ADD_DVC_EXT_ENTRY_POINT(vkCmdSetTessellationDomainOriginEXT, EXT_EXTENDED_DYNAMIC_STATE_3);
+#if MVK_XCODE_14
+    ADD_DVC_EXT_ENTRY_POINT(vkCmdDecompressMemoryIndirectCountNV, NV_MEMORY_DECOMPRESSION);
+    ADD_DVC_EXT_ENTRY_POINT(vkCmdDecompressMemoryNV, NV_MEMORY_DECOMPRESSION);
+#endif
 }
 
 void MVKInstance::logVersions() {

@@ -26,6 +26,7 @@
 #include "MVKCmdRendering.h"
 #include "MVKCmdDispatch.h"
 #include "MVKCmdDraw.h"
+#include "MVKCmdDecompressMemory.h"
 #include "MVKCmdTransfer.h"
 #include "MVKCmdQueries.h"
 #include "MVKCmdDebug.h"

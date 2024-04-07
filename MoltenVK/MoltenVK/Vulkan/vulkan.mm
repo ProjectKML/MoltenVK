@@ -4091,3 +4091,24 @@ MVK_PUBLIC_SYMBOL PFN_vkVoidFunction vk_icdGetPhysicalDeviceProcAddr(
 	return func;
 }
 
+#pragma mark -
+#pragma mark VK_NV_memory_decompression
+
+MVK_PUBLIC_SYMBOL void vkCmdDecompressMemoryIndirectCountNV(
+	VkCommandBuffer                             commandBuffer,
+	VkDeviceAddress                             indirectCommandsAddress,
+	VkDeviceAddress                             indirectCommandsCountAddress,
+	uint32_t                                    stride) {
+	MVKTraceVulkanCallStart();
+	MVKAddCmd(DecompressMemoryIndirectCountNV, commandBuffer, indirectCommandsAddress, indirectCommandsCountAddress, stride);
+	MVKTraceVulkanCallEnd();
+}
+
+ MVK_PUBLIC_SYMBOL void vkCmdDecompressMemoryNV(
+	VkCommandBuffer                             commandBuffer,
+	uint32_t                                    decompressRegionCount,
+	const VkDecompressMemoryRegionNV*           pDecompressMemoryRegions) {
+	MVKTraceVulkanCallStart();
+	MVKAddCmd(DecompressMemoryNV, commandBuffer, decompressRegionCount, pDecompressMemoryRegions);
+	MVKTraceVulkanCallEnd();
+}
